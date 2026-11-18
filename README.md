@@ -47,3 +47,7 @@ O conversor usa ZIP/XML da biblioteca padrão, lê as abas por seus nomes e rela
 ## Licenças e origem cartográfica
 
 Leaflet 1.9.4, licença BSD-2-Clause em `vendor/leaflet/LICENSE`, obtido de https://leafletjs.com/. Fronteiras Natural Earth (domínio público), distribuídas por https://github.com/datasets/geo-countries sob ODC PDDL. Cópia local em `data/world.geojson`. Bibliotecas e fronteiras foram obtidas durante o desenvolvimento; nenhuma · baixada em execução. As métricas e links das quatro fontes são fornecidos no dicionário e nos metadados originais.
+
+## Popup dos países
+
+O resumo usa duas colunas em telas maiores. Clique no país para fixá-lo e ler com calma; o painel detalhado também é atualizado. Clique fora do popup para liberar o mouse over, ou em outro país para fixar o novo resumo. Use o ícone Copiar para enviar o conteúdo à área de transferência. Em telas pequenas, a janela fica limitada à área visível e permite rolagem quando necessário.

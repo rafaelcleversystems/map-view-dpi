@@ -88,6 +88,36 @@
       "result": true
     },
     {
+      "name": "Country click pins summary and retains detail panel",
+      "passed": true,
+      "result": true
+    },
+    {
+      "name": "Pinned summary survives mouseout and ignores other hover",
+      "passed": true,
+      "result": true
+    },
+    {
+      "name": "Desktop summary has no vertical scroll",
+      "passed": true,
+      "result": true
+    },
+    {
+      "name": "Copy uses country text and retains pinned popup",
+      "passed": true,
+      "result": true
+    },
+    {
+      "name": "Outside click unpins and hover resumes",
+      "passed": true,
+      "result": true
+    },
+    {
+      "name": "Click another country switches pinned summary",
+      "passed": true,
+      "result": true
+    },
+    {
       "name": "Mobile layout has no horizontal overflow",
       "passed": true,
       "result": true
