@@ -1,0 +1,485 @@
+# PROJETO: MapView Global — Diagnóstico de Infraestrutura Pública Digital (DPI) e Inteligência Artificial (IA)
+
+## 1. Objetivo
+
+Desenvolver uma aplicação web interativa, utilizando HTML, CSS e JavaScript, para visualizar geograficamente os indicadores internacionais de Infraestrutura Pública Digital (DPI), governo digital e inteligência artificial.
+
+A aplicação será utilizada em uma pesquisa acadêmica denominada **Tema 2 — Diagnóstico da Infraestrutura Pública Digital (DPI)**.
+
+O objetivo é permitir a comparação visual dos países a partir de indicadores de quatro fontes internacionais, sem criar indicadores sintéticos adicionais nem modificar as métricas originais.
+
+A aplicação deverá executar localmente no computador, sem depender de servidores externos, APIs de terceiros ou conexão com a internet durante sua utilização.
+
+## 2. Arquivo de entrada
+
+Utilizar como fonte de dados o arquivo:
+
+`Tema2_DPI_IA_Base_Global_MapView.xlsx`
+
+A planilha contém aproximadamente 214 países e territórios, com 64 colunas na tabela principal.
+
+Abas existentes:
+
+- `PAISES_MAPVIEW`: tabela principal, com uma linha por país e os indicadores consolidados.
+- `INDICADORES_LONGOS`: estrutura país–indicador–valor, adequada para filtros e visualizações.
+- `DICIONARIO`: descrição dos campos, fontes e unidades.
+- `LEIA_ME`: informações e ressalvas metodológicas.
+- `DPI_REGIONAIS`: registros de sistemas regionais que não devem ser associados diretamente a países.
+
+Ler os nomes e tipos reais das colunas e validar a integridade dos registros antes de implementar a interface.
+
+## 3. Tecnologias
+
+Utilizar preferencialmente:
+
+- HTML5;
+- CSS3;
+- JavaScript;
+- Leaflet.js;
+- GeoJSON para as fronteiras dos países;
+- Python apenas como ferramenta de pré-processamento dos dados.
+
+A aplicação final não deverá precisar de Python ou Excel para funcionar.
+
+Preparar os dados em arquivos JSON estáticos, gerados a partir da planilha.
+
+Todas as bibliotecas e recursos deverão ficar armazenados localmente.
+
+Evitar dependências de CDN, serviços de mapas, imagens externas e APIs.
+
+Caso seja necessário um servidor HTTP local para carregar arquivos JSON ou GeoJSON, fornecer um script simples para iniciá-lo e documentar claramente esse requisito.
+
+## 4. Mapa principal
+
+Construir um mapa-múndi interativo com:
+
+- fronteiras dos países;
+- zoom;
+- deslocamento por arraste;
+- botão para retornar à visualização global;
+- identificação dos países ao passar o mouse;
+- legenda dinâmica;
+- representação por cores conforme o indicador selecionado.
+
+O mapa deve permitir navegação fluida, inclusive quando exibido em tela cheia.
+
+Não é necessário utilizar mapa de ruas ou imagens de satélite. Um mapa vetorial de países é suficiente.
+
+### Correspondência geográfica
+
+Utilizar os campos:
+
+- `iso3`: código ISO 3166-1 alpha-3;
+- `iso2`: código ISO 3166-1 alpha-2;
+- `pais`: nome do país.
+
+Priorizar a correspondência pelo código ISO3.
+
+A aplicação deverá identificar e registrar países presentes na planilha que não tenham correspondência no GeoJSON e vice-versa.
+
+Não fazer associações geográficas apenas por aproximação de nomes sem validação.
+
+Os registros da aba `DPI_REGIONAIS` deverão permanecer separados dos dados nacionais.
+
+## 5. Janela flutuante ao passar o mouse
+
+Ao posicionar o cursor sobre um país, mostrar uma janela flutuante (tooltip) contendo suas informações.
+
+O tooltip deve aparecer sem exigir clique.
+
+Apresentar inicialmente:
+
+**Nome do país**
+
+**DPI Map — UCL/IIPP**
+- Quantidade de sistemas de identidade digital contabilizados como DPI;
+- quantidade de sistemas de pagamentos contabilizados como DPI;
+- quantidade de sistemas de intercâmbio de dados contabilizados como DPI;
+- nomes dos sistemas identificados, quando disponíveis.
+
+**GTMI — Banco Mundial**
+- GTMI geral;
+- CGSI;
+- PSDI;
+- DCEI;
+- GTEI;
+- grupo de maturidade.
+
+**Government AI Readiness — Oxford Insights**
+- índice geral;
+- capacidade de políticas;
+- infraestrutura de IA;
+- governança;
+- adoção no setor público;
+- desenvolvimento e difusão;
+- resiliência.
+
+**OCDE**
+- Digital Government Index (DGI);
+- Open, Useful and Re-usable Data Index (OURdata).
+
+Se algum indicador não estiver disponível para o país, apresentar `N/D`.
+
+Não substituir valores ausentes por zero.
+
+O tooltip deve ser compacto e bem organizado. Utilizar seções recolhíveis ou uma apresentação resumida quando necessário para evitar que ele ocupe grande parte da tela.
+
+O indicador atualmente selecionado para colorir o mapa deve aparecer destacado no topo do tooltip, com seu valor e unidade.
+
+Ao clicar em um país, abrir um painel lateral com todos os indicadores disponíveis para análise detalhada.
+
+## 6. Filtro principal: indicador para colorir o mapa
+
+Implementar um seletor de indicadores na parte superior ou lateral da interface.
+
+O usuário poderá escolher **um indicador numérico por vez** para determinar a cor dos países.
+
+Organizar os indicadores por fonte.
+
+### DPI Map
+
+Disponibilizar:
+
+- `dpi_id_registros`
+- `dpi_id_contabilizados`
+- `dpi_pagamentos_registros`
+- `dpi_pagamentos_contabilizados`
+- `dpi_dados_registros`
+- `dpi_dados_contabilizados`
+
+### GTMI — Banco Mundial
+
+Disponibilizar:
+
+- `gtmi_gtmi`
+- `gtmi_cgsi`
+- `gtmi_psdi`
+- `gtmi_dcei`
+- `gtmi_gtei`
+
+Também permitir a visualização dos indicadores numéricos específicos `gtmi_I_3`, `gtmi_I_26_2` e `gtmi_I_41`, respeitando suas escalas e codificações originais.
+
+### Oxford Insights
+
+Disponibilizar:
+
+- `oxford_total`
+- `oxford_policy_capacity`
+- `oxford_ai_infrastructure`
+- `oxford_governance`
+- `oxford_public_sector_adoption`
+- `oxford_development_diffusion`
+- `oxford_resilience`
+- `oxford_compute_capacity`
+- `oxford_enabling_technical_infrastructure`
+- `oxford_data_quality`
+- `oxford_government_digital_policy`
+- `oxford_egovernment_delivery`
+
+Os demais campos numéricos de Oxford Insights também deverão poder ser adicionados ao seletor.
+
+### OCDE
+
+Disponibilizar:
+
+- `ocde_dg`: índice agregado DGI;
+- `ocde_our`: índice agregado OURdata.
+
+Permitir selecionar também as respectivas dimensões, identificando claramente quando os valores representam contribuições ponderadas ao índice, e não pontuações independentes.
+
+### Funcionamento
+
+Ao selecionar um indicador:
+
+1. Atualizar automaticamente a coloração de todos os países.
+2. Atualizar a legenda.
+3. Atualizar o nome e a descrição do indicador ativo.
+4. Atualizar os valores destacados nos tooltips.
+5. Preservar o zoom e a posição atual do mapa.
+
+Exibir exclusivamente o indicador escolhido na representação de cores. Os demais indicadores continuarão disponíveis na janela flutuante e no painel detalhado.
+
+## 7. Escalas e cores
+
+Utilizar um mapa coroplético, com gradação contínua de cores.
+
+Sugestão inicial:
+
+- valores baixos: azul muito claro;
+- valores intermediários: azul médio;
+- valores elevados: azul escuro;
+- ausência de dados: cinza claro.
+
+A legenda deverá mostrar valores numéricos, unidade e limites da escala.
+
+As escalas devem respeitar as características de cada fonte:
+
+- GTMI: valores de 0 a 1;
+- Oxford Insights: valores de 0 a 100;
+- DGI/OURdata: índices agregados de 0 a 1;
+- DPI Map: contagens de sistemas.
+
+Não normalizar automaticamente todas as fontes para uma escala comum, salvo se existir uma opção explicitamente identificada como transformação visual.
+
+Permitir alternar entre escala fixa do indicador e escala baseada no intervalo dos dados disponíveis.
+
+Quando a escala for definida pelos valores observados, informar os limites mínimo e máximo.
+
+Não calcular um índice agregado combinando fontes diferentes.
+
+## 8. Filtros adicionais
+
+Criar filtros para:
+
+**Recorte geográfico**
+- Todos os países;
+- apenas países prioritários do Tema 2.
+
+Utilizar o campo `recorte_prioritario`, no qual `1` identifica os países do recorte principal.
+
+**Fonte**
+- DPI Map;
+- GTMI;
+- Oxford Insights;
+- OCDE.
+
+**Disponibilidade**
+- todos os países;
+- somente países com dados do indicador selecionado.
+
+**Pesquisa**
+- busca por nome do país.
+
+Ao aplicar filtros, preservar a identificação dos países e a legenda correta.
+
+## 9. Países prioritários
+
+Os seguintes países integram o recorte principal:
+
+- Brasil;
+- Estados Unidos;
+- Índia;
+- China;
+- Estônia;
+- Alemanha;
+- França;
+- Chile;
+- Colômbia;
+- Peru;
+- Uruguai;
+- Argentina;
+- Equador.
+
+O Brasil é referência obrigatória.
+
+A União Europeia deve ser representada pelos Estados-membros selecionados, sem atribuir pontuação agregada ao bloco que não tenha sido calculada pela fonte original.
+
+Criar um botão **“Destacar países do estudo”** para identificar visualmente esses países no mapa.
+
+O destaque não deve alterar o valor nem a classificação do indicador apresentado.
+
+## 10. Painel detalhado do país
+
+Ao clicar sobre um país, abrir um painel lateral contendo:
+
+- nome e código ISO3;
+- informações sobre o recorte analítico;
+- tabela dos indicadores agrupados por fonte;
+- valores completos;
+- unidades;
+- indicação de disponibilidade;
+- descrição do indicador;
+- referência e link para a fonte;
+- ano ou data de referência.
+
+Incluir opção de exportar os dados do país selecionado em CSV.
+
+## 11. Estrutura da interface
+
+Desenvolver uma interface acadêmica, moderna, limpa e responsiva.
+
+Organização sugerida:
+
+**Cabeçalho**
+
+Título: `Panorama Internacional — DPI e Inteligência Artificial`
+
+Subtítulo: `Tema 2 | Diagnóstico Comparativo Internacional`
+
+**Barra de controles**
+
+- Fonte;
+- indicador;
+- recorte geográfico;
+- busca por país;
+- botão de redefinição.
+
+**Área principal**
+
+Mapa-múndi com legenda dinâmica.
+
+**Painel lateral**
+
+Informações detalhadas do país selecionado.
+
+**Rodapé**
+
+Identificação das fontes, período de referência e notas metodológicas.
+
+Utilizar tipografia legível, cores discretas e boa distribuição dos elementos.
+
+## 12. Processamento e validação dos dados
+
+Criar um script para converter o Excel em JSON, preservando:
+
+- valores numéricos;
+- valores textuais;
+- nomes de indicadores;
+- escalas;
+- unidades;
+- fontes;
+- datas de referência;
+- códigos geográficos.
+
+Antes da geração dos arquivos finais, validar:
+
+1. Quantidade de países identificados.
+2. Duplicidades de códigos ISO3.
+3. Países sem correspondência geográfica.
+4. Indicadores sem definição no dicionário.
+5. Valores numéricos inesperados.
+6. Preservação de valores zero.
+7. Preservação de valores ausentes.
+8. Correspondência entre os dados consolidados e os indicadores da planilha original.
+
+Não alterar nem corrigir silenciosamente valores originais.
+
+Gerar um relatório de validação com os problemas encontrados, caso existam.
+
+**Atenção:** não interpretar automaticamente os códigos `gtmi_I_3`, `gtmi_I_26_2` e `gtmi_I_41` como escalas de 0 a 1. Conferir as definições no dicionário e preservar os valores originais.
+
+## 13. Estrutura de arquivos
+
+Organizar o projeto preferencialmente da seguinte forma:
+
+```text
+mapview-dpi-ia/
+│
+├── index.html
+├── css/
+│   └── style.css
+├── js/
+│   ├── app.js
+│   ├── map.js
+│   ├── filters.js
+│   ├── tooltip.js
+│   └── data.js
+├── data/
+│   ├── countries.json
+│   ├── indicators.json
+│   ├── metadata.json
+│   └── world.geojson
+├── vendor/
+│   └── leaflet/
+├── scripts/
+│   └── prepare_data.py
+├── validation/
+│   └── validation_report.json
+├── start.bat
+├── start.sh
+└── README.md
+```
+
+A estrutura poderá ser ajustada quando houver justificativa técnica.
+
+## 14. Execução local
+
+A aplicação deverá funcionar em Windows, Linux e macOS.
+
+Priorizar abertura direta do `index.html` se tecnicamente viável.
+
+Caso as restrições de segurança do navegador impeçam o carregamento dos arquivos locais, implementar um pequeno servidor HTTP estático.
+
+Nesse caso, disponibilizar:
+
+- `start.bat` para Windows;
+- `start.sh` para Linux/macOS;
+- instruções no README;
+- porta configurável;
+- execução sem conexão com a internet.
+
+Não utilizar serviços externos de hospedagem.
+
+## 15. Requisitos de qualidade
+
+O mapa deverá:
+
+- carregar todos os países disponíveis na base;
+- apresentar corretamente a identificação geográfica;
+- exibir tooltip ao passar o mouse;
+- apresentar painel detalhado ao clicar;
+- atualizar cores ao mudar o indicador;
+- permitir alternar entre todos os países e os prioritários;
+- preservar a distinção entre zero e ausência de dados;
+- funcionar integralmente offline;
+- ser responsivo;
+- não apresentar erros no console do navegador.
+
+Testar o mapa com os seguintes exemplos:
+
+1. Brasil, selecionando `gtmi_gtmi`.
+2. Estados Unidos, selecionando `oxford_total`.
+3. Estônia, selecionando `ocde_dg`.
+4. China, selecionando `oxford_ai_infrastructure`.
+5. Brasil, selecionando `dpi_pagamentos_contabilizados`.
+6. País sem observação na OCDE, verificando a representação `N/D`.
+
+Conferir os resultados com a planilha original.
+
+## 16. Entregáveis
+
+Fornecer:
+
+1. Projeto completo em HTML, CSS e JavaScript.
+2. Arquivos JSON preparados a partir do Excel.
+3. GeoJSON mundial local.
+4. Bibliotecas locais necessárias.
+5. Script de conversão e atualização dos dados.
+6. Relatório de validação.
+7. README com instruções de execução.
+8. Scripts para iniciar a aplicação localmente.
+
+O projeto deve ser entregue funcional, não apenas como protótipo visual.
+
+## 17. Evoluções futuras
+
+Preparar a arquitetura para permitir, posteriormente:
+
+- comparação de dois países;
+- comparação de dois indicadores;
+- gráficos de dispersão entre DPI e IA;
+- análise de correlação;
+- filtros por região;
+- séries temporais;
+- exportação de mapas;
+- inclusão de novas fontes;
+- análise de diferenças entre capacidades de DPI e adoção de IA.
+
+Essas funcionalidades não precisam ser implementadas na primeira versão.
+
+Entretanto, a organização do código e dos dados deverá facilitar sua inclusão futura.
+
+## 18. Critério de conclusão
+
+Considerar o trabalho finalizado somente quando:
+
+- todos os dados aplicáveis forem processados;
+- o mapa funcionar localmente;
+- o tooltip apresentar os indicadores;
+- o filtro colorir o mapa de acordo com o indicador escolhido;
+- a legenda refletir a escala correta;
+- os dados ausentes forem diferenciados dos valores zero;
+- a correspondência entre países e dados for validada;
+- a documentação permitir executar a aplicação em outro computador.
+
+Não entregar apenas explicações ou exemplos isolados de código. Construir os arquivos e testar a aplicação completa.

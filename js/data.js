@@ -1,0 +1,16 @@
+"use strict";
+window.MV={};
+MV.data=window.MAPVIEW_DATA;
+MV.countries=new Map(MV.data.countries.map(c=>[c.iso3,c]));
+MV.sources={dpi:'DPI Map · UCL/IIPP',gtmi:'GTMI · Banco Mundial',oxford:'Government AI Readiness · Oxford Insights',ocde:'OCDE · DGI e OURdata'};
+MV.group=key=>key.split('_')[0];
+MV.escape=value=>String(value??'N/D').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+MV.numeric=v=>typeof v==='number'&&Number.isFinite(v);
+MV.format=(v,full=false)=>v===null||v===undefined?'N/D':typeof v==='number'?(full?String(v):v.toLocaleString('pt-BR',{maximumFractionDigits:4})):String(v);
+MV.labels={gtmi_gtmi:'GTMI · índice geral',gtmi_cgsi:'CGSI · Sistemas centrais',gtmi_psdi:'PSDI · Serviços públicos',gtmi_dcei:'DCEI · Engajamento digital',gtmi_gtei:'GTEI · Fatores habilitadores',oxford_total:'AI Readiness · índice geral',oxford_policy_capacity:'Capacidade de políticas',oxford_ai_infrastructure:'Infraestrutura de IA',oxford_governance:'Governança de IA',oxford_public_sector_adoption:'Adoção no setor público',oxford_development_diffusion:'Desenvolvimento e difusão',oxford_resilience:'Resiliência',ocde_dg:'DGI · Digital Government Index',ocde_our:'OURdata · Dados abertos'};
+for(const k of ['id','pagamentos','dados'])for(const t of ['registros','contabilizados'])MV.labels[`dpi_${k}_${t}`]=`${{id:'Identidade digital',pagamentos:'Pagamentos',dados:'Intercâmbio de dados'}[k]} · ${t==='registros'?'sistemas registrados':'sistemas DPI'}`;
+MV.label=i=>MV.labels[i.key]||i.description;
+MV.state={indicator:'gtmi_gtmi',scope:'all',availability:'all',scale:'fixed',highlight:false,selected:null};
+MV.active=()=>MV.data.indicators.find(i=>i.key===MV.state.indicator);
+MV.eligible=c=>!!c&&(MV.state.scope!=='priority'||c.recorte_prioritario===1)&&(MV.state.availability!=='data'||MV.numeric(c[MV.state.indicator]));
+MV.range=()=>{const i=MV.active();const values=MV.data.countries.filter(MV.eligible).map(c=>c[i.key]).filter(MV.numeric);return MV.state.scale==='fixed'&&i.fixed?i.fixed:values.length?[Math.min(...values),Math.max(...values)]:null;};

@@ -1,0 +1,107 @@
+{
+  "browser": "Chrome headless",
+  "offline": true,
+  "tests": [
+    {
+      "name": "Offline file opening and 214 records",
+      "passed": true,
+      "result": true
+    },
+    {
+      "name": "BRA gtmi_gtmi",
+      "passed": true,
+      "result": true
+    },
+    {
+      "name": "USA oxford_total",
+      "passed": true,
+      "result": true
+    },
+    {
+      "name": "EST ocde_dg",
+      "passed": true,
+      "result": true
+    },
+    {
+      "name": "CHN oxford_ai_infrastructure",
+      "passed": true,
+      "result": true
+    },
+    {
+      "name": "BRA dpi_pagamentos_contabilizados",
+      "passed": true,
+      "result": true
+    },
+    {
+      "name": "USA ocde_dg",
+      "passed": true,
+      "result": true
+    },
+    {
+      "name": "Indicator change preserves viewport",
+      "passed": true,
+      "result": true
+    },
+    {
+      "name": "All indicator selections and tooltips",
+      "passed": true,
+      "result": true
+    },
+    {
+      "name": "Priority 13 and availability",
+      "passed": true,
+      "result": true
+    },
+    {
+      "name": "Zero distinct from missing",
+      "passed": true,
+      "result": true
+    },
+    {
+      "name": "Search includes country without geometry",
+      "passed": true,
+      "result": true
+    },
+    {
+      "name": "CSV exported without failure",
+      "passed": true,
+      "result": true
+    },
+    {
+      "name": "Hover creates visible tooltip",
+      "passed": true,
+      "result": true
+    },
+    {
+      "name": "Reset restores initial state",
+      "passed": true,
+      "result": true
+    },
+    {
+      "name": "Workbook notes contain source values",
+      "passed": true,
+      "result": true
+    },
+    {
+      "name": "Global view remains stable after reset",
+      "passed": true,
+      "result": true
+    },
+    {
+      "name": "Mobile layout has no horizontal overflow",
+      "passed": true,
+      "result": true
+    },
+    {
+      "name": "No browser console errors",
+      "passed": true,
+      "result": []
+    },
+    {
+      "name": "No external runtime requests",
+      "passed": true,
+      "result": 0
+    }
+  ],
+  "passed": true
+}
